@@ -1,7 +1,8 @@
 .container{
   width: 100%;
   height: 100vh;
-  
+  position: relative;
+  z-index: 7;
   nav{
     width: inherit;
     height: 60px;
@@ -18,33 +19,79 @@
     display: flex;
     justify-content: space-between;
     padding: 0 10px;
+   
     section.videoBox{
-      width: 70%;
+      width: 73%;
       height: 88%;
-      border: 1px solid black;
+      // border: 1px solid black;
       display: flex;
       justify-content: space-around;
       align-items: center;
+      background-color: #e7dfcf;
+      border-radius: 10px;
+      .video{
+        width: 45%;
+        height: 50%;
+        display: flex;
+        flex-direction: column;
       video.screen{
-        width: 40%;
-        height: 80%;
-        border: 1px solid black;
+        // width: 40%;
+        // height: 80%;
+        // border: 1px solid black;
+        border-radius: 5px;
       }
+      .name{
+        font-size: 1.2rem;
+        color: #214d72;
+       position: relative;
+       padding-left: 20px;
+       margin-top: 10px;
+      }
+      .name:before{
+        position: absolute;
+        content: '';
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+        background-color: green;
+        left: 0;
+        top: 10px;
+
+      }
+    }
       .noVideo{
         width: 40%;
-        height: 80%;
-        border: 1px solid black;
+        height: 50%;
+        border: 3px solid rgb(231, 152, 4);
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        div.plusSign{
+          font-size: 3rem;
+          border-radius: 50%;
+          width: 40px;
+          height: 40px;
+          border: 2px solid rgb(231, 152, 4);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding-bottom: 10px;
+          color: rgb(231, 152, 4);
+        }
       }
+    
     }
     section.contact{
       width: 25%;
       height: 88%;
-      border: 1px solid black;
-      
+      // border: 1px solid black;
+      border-radius: 10px;
+      background-color: #c9b4ce;
       h1{
         
-        font-size: 1.4rem;
-        color: gray;
+        font-size: 1.7rem;
+        color: #386c50;
         margin-top: 20px;
         margin-left: 50px;
       }
@@ -65,11 +112,12 @@
         margin-top: 50%;
         width: 100%;
         text-align: center;
-        h1.calling{
-          margin: 0;
+        h1{
+          margin: 0 10px 0 0;
           color: #214d72;
         }
-        button.endCall{
+        
+        button.endCall,button.receiveCall{
           width: max-content;
           height: 40px;
           padding: 0 40px;
@@ -81,6 +129,15 @@
           border: none;
           margin: auto;
         }
+        p{
+          color: rgb(43, 38, 38);
+          font-size: 1.2rem;
+          margin: 10px 0;
+        }
+        button.receiveCall{
+          background-color: rgb(4, 80, 4);
+          margin-top: 10px;
+        }
         form{
           
           display: flex;
@@ -88,14 +145,18 @@
           align-items: center;
           h4{
             font-size: 1.3rem;
-            color: gray;
+            color: #214d72;
           }
           input[type=text]{
             width: 90%;
             height: 35px;
             outline: none;
+            border:none;
+            background: white;
             margin-top: 10px;
             padding-left: 5px;
+            border-radius: 20px;
+            padding-left: 20px;
           }
           input[type=submit]{
             width: max-content;
@@ -114,6 +175,58 @@
       }
       
     }
+  }
+  section.addName{
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9;
+    background-color: rgba($color: #000000, $alpha: 0.7);
+    .addNameform{
+     position: relative;
+     width: 100%;
+     height: 100vh;
+     top: 0;
+    left: 0;
+    }
+    form{
+      background-color: white;
+      width: 500px;
+      height: 200px;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%,-50%);
+      border: 1px solid black;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      input[type=text]{
+        width: 400px;
+        height: 35px;
+        border: none;
+        border-bottom: 1px solid gray;
+        outline: none;
+        font-size: 1.2rem;
+      }
+      input[type=submit]{
+        width: max-content;
+        height: 35px;
+        border-radius: 20px;
+        border: none;
+        outline: none;
+        background-color: #214d72;
+        color: white;
+        cursor: pointer;
+        padding: 0  40px;
+
+      }
+    }
+    
   }
   
 }

@@ -5,13 +5,15 @@ import VideoBox from './components/VideoBox';
 import { io } from 'socket.io-client';
 import Peer, { SignalData } from 'simple-peer'
 import './styles/App.scss';
+import AddName from './components/AddName';
 const SERVER_URL = process.env.REACT_APP_SERVER_URL || ""
 
 
 const socket = io(SERVER_URL)
 
 function App() {
-  const [name,setName] = useState("vish")
+  const [name,setName] = useState("")
+  const [addName,setAddName] = useState(true)
   const [stream,setStream] = useState<MediaStream>()
   const [userId,setUserId] = useState("")
 
@@ -22,10 +24,13 @@ function App() {
   
   const [callStatus,setCallStatus] = useState<"off" | "on" | "calling" | "receiving">("off")
   
-  const myVideo = useRef<HTMLVideoElement>(null)
+  
   const callerVideo = useRef<HTMLVideoElement>(null)
   const connectionRef = useRef<Peer.Instance>();
 
+  useEffect(()=>{
+    name === '' ? setAddName(true) : setAddName(false)
+  },[name])
 
   useEffect(()=>{
     socket.on('me',(id)=>{
@@ -52,15 +57,7 @@ function App() {
     }
   },[])
 
-  useEffect(()=>{
-    navigator.mediaDevices.getUserMedia({video:true,audio:true})
-    .then(stream=>{
-      setStream(stream)
-      if(myVideo.current){
-        myVideo.current.srcObject = stream
-      }
-    })
-  },[])
+
 
   const cancelSockets = ()=>{
     socket.off('callAccepted')
@@ -92,9 +89,11 @@ function App() {
     })
 
     
-    socket.on('callAccepted',signal=>{
+    socket.on('callAccepted',data=>{
       setCallStatus('on')
-       peer.signal(signal)
+      setCallerName(data.receiverName) 
+      peer.signal(data.signal)
+
     })
 
      
@@ -109,7 +108,7 @@ function App() {
       stream:stream
     })
     peer.on('signal',signal=>{
-      socket.emit('answerCall',{signal:signal,to:callerId})
+      socket.emit('answerCall',{signal:signal,to:callerId,receiverName:name})
     })
     
     peer.on("stream",stream=>{
@@ -133,15 +132,21 @@ function App() {
  
 
   return (
-   <div className="container">
+   <div className={addName ? "container black":"container"} >
+    {!addName ? (<>
+    
     <Navbar />
     <div className="callContainer">
        <VideoBox 
            stream={stream}
-           myVideo={myVideo}
+           setStream={setStream}
            callerVideo={callerVideo}
-           callStatus={callStatus} />
+           callStatus={callStatus}
+           name={name}
+           callerName={callerName} />
+           
        <Contact 
+           name={name}
            callStatus={callStatus}
            userId={userId}
            setCallStatus={setCallStatus}
@@ -152,7 +157,10 @@ function App() {
            callerName={callerName}
             />
     </div>
-        
+    </>):("")}
+    {addName ? 
+        <AddName setName={setName} />
+        : ""}
    </div>
   );
 }

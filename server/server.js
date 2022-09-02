@@ -25,7 +25,7 @@ io.on('connection',(socket)=>{
     })
 
     socket.on('answerCall',data=>{
-        io.to(data.to).emit('callAccepted',data.signal)
+        io.to(data.to).emit('callAccepted',{signal:data.signal,receiverName:data.receiverName})
     })
 
     socket.on('endCall',(callerId)=>{

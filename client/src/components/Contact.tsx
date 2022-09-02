@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 type propType = {
+  name:string
   callStatus: "off" | "on" | "calling"| "receiving";
   userId: string;
   setCallStatus: React.Dispatch<React.SetStateAction<"off" | "on" | "calling" | "receiving">>;
@@ -12,7 +13,7 @@ type propType = {
 };
 
 const Contact = (props: propType) => {
-  const { callStatus, userId, setCallStatus,callUser,answerCall,callerName,leaveCall } = props;
+  const { name,callStatus, userId, setCallStatus,callUser,answerCall,callerName,leaveCall } = props;
 
   const [idToCall, setIdToCall] = useState("");
 
@@ -24,7 +25,7 @@ const Contact = (props: propType) => {
   };
   return (
     <section className="contact">
-      <h1 className="username">Vishal Kumar</h1>
+      <h1 className="username">{name}</h1>
       <button
         className="copybtn"
         onClick={() => navigator.clipboard.writeText(userId)}
@@ -36,7 +37,7 @@ const Contact = (props: propType) => {
           <div>
             <h1>Recieving Call</h1>
             <p>{callerName} is calling...</p>
-            <button onClick={answerCall}>Answer</button>
+            <button className="receiveCall" onClick={answerCall}>Answer</button>
           </div>
         ) : callStatus === "off" ? (
           <form action="" onSubmit={onSubmit}>
